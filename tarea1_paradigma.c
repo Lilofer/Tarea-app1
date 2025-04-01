@@ -161,8 +161,67 @@ void apd() {
     printf("Promedio de pizzas por día: %.2f\n", total_pizzas / order_count);
 }
 
-void main (){
-    char funcionEjecutable;
-    printf("seleccione la funcion a ejecutar"); //no creo que sea asi
-    scanf("%s", &funcionEjecutable);
+int main (int argc, char *argv[]){ //Finalmente hacemos la funcion main 
+
+    if (argc < 2){
+        printf("No se ingreso ningun argumento, fuera FUERA FUERA SAL DE MI CABEZAAAAA");
+        return 1;
+    }
+
+    // cargar csv ESTOY EN ESTo
+
+    char *archivoCSV = argv[1];
+
+    load_csv(archivoCSV); // Llama al CSV con el nombre del archivo
+
+        //Obtiene el nombre del argumento 1 y 2
+    char *nombreFuncion1 = argv[2];
+    char *nombreFuncion2 = argv[3];
+
+
+    if (argc > 2) {
+        char *nombreFuncion1 = argv[2];
+        if (strcmp(nombreFuncion1, "pms") == 0) {
+            pms();
+        } else {
+            printf("Función desconocida: %s\n", nombreFuncion1);
+        }
+    }
+
+    if (argc > 3) {
+        char *nombreFuncion2 = argv[3];
+        if (strcmp(nombreFuncion2, "pls") == 0) {
+            pls();
+        } else {
+            printf("Función desconocida: %s\n", nombreFuncion2);
+        }
+    }
+
 }
+
+
+
+
+
+
+//PRUEBA PARA VER SI LA MIELDA SE MUESTRA EN LA TERMINAL O NO
+/* int main(int argc, char *argv[]) {
+    // Verifica si se proporcionó al menos un argumento
+    if (argc < 2) {
+      printf("Uso: %s <nombre>\n", argv[0]);
+      return 1; // Indica un error
+    }
+  
+    // Obtiene el nombre del argumento
+    char *nombre = argv[1];
+  
+    // Imprime un saludo personalizado
+    printf("Hola, %s!\n", nombre);
+  
+    // Verifica si se proporcionó un segundo argumento
+    if (argc > 2) {
+      printf("Argumento adicional: %s\n", argv[2]);
+    }
+  
+    return 0; // Indica éxito
+  } */
