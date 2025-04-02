@@ -33,8 +33,10 @@ void load_csv(const char *filename) {
 
     char line[MAX_LINE];
     fgets(line, MAX_LINE, file); // Saltar encabezado
-    
-    while (fgets(line, MAX_LINE, file) && order_count < MAX_ORDERS) {
+
+    while (fgets(line, MAX_LINE, file) && order_count < MAX_ORDERS) { //Esto es para sabes si esta leyendo las lineas
+        printf("Línea leída: %s", line); // Imprime la línea leída
+
         int result = sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%[^,],%f,%f,%[^,],%[^,],\"%[^\"]\",%[^,]",
                             orders[order_count].pizza_id, orders[order_count].order_id, orders[order_count].pizza_name_id,
                             &orders[order_count].quantity, orders[order_count].order_date, orders[order_count].order_time,
@@ -42,15 +44,15 @@ void load_csv(const char *filename) {
                             orders[order_count].pizza_size, orders[order_count].pizza_category,
                             orders[order_count].pizza_ingredients, orders[order_count].pizza_name);
 
-        if (result != 12) {  
-            printf("Error al leer la línea %d del CSV.\n", order_count + 1);
-            continue;
+        if (result != 12) {
+            printf("Error al leer la línea %d del CSV.\nColumnas leidas: %d \nProblema: %s \n\n", order_count + 1, result, orders[order_count].order_date);
         }
 
         order_count++;
-    }
+    } // Cierra el bucle while principal
 
     fclose(file);
+    printf("Se cerro el bucle \n");
 }
 
 // Función para encontrar la pizza más vendida
@@ -204,8 +206,8 @@ int main (int argc, char *argv[]){ //Finalmente hacemos la funcion main
 
 
 
-//PRUEBA PARA VER SI LA MIELDA SE MUESTRA EN LA TERMINAL O NO
-/* int main(int argc, char *argv[]) {
+/* //PRUEBA PARA VER SI LA MIELDA SE MUESTRA EN LA TERMINAL O NO
+int main(int argc, char *argv[]) {
     // Verifica si se proporcionó al menos un argumento
     if (argc < 2) {
       printf("Uso: %s <nombre>\n", argv[0]);
