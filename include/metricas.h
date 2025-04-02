@@ -3,13 +3,13 @@
 
 #include "orden.h"
 
-typedef struct {
+typedef struct PizzaFrequency {
     char pizza_name[50];
     int quantity;
     struct PizzaFrequency *next;
 } PizzaFrequency;
 
-typedef struct {
+typedef struct DateSales {
     char date[20];
     float sales;
     int quantity;
