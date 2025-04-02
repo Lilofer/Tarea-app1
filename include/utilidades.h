@@ -1,7 +1,7 @@
-#ifndef UTILIDADES_H
-  #define UTILIDADES_H
+#ifndef UTILS_H
+#define UTILS_H
 
-  int comparar_fecha(const char* date1, const char* date2);
-  void trim_string(char *str);
+int compare_dates(const char *date1, const char *date2);
+void trim_string(char *str);
 
-  #endif
+#endif

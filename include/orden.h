@@ -1,19 +1,19 @@
-#ifndef ORDEN_H
-#define ORDEN_H
+#ifndef ORDER_H
+#define ORDER_H
 
 typedef struct {
-    int pizza_id;
-    int orden_id;
-    char pizza_nombre_id[50];
-    int cantidad;
-    char orden_dato[11];
-    char orden_tiempo[9];
-    float precio_unidad;
-    float precio_total;
-    char tamaño_pizza[2];
-    char categoria_pizza[50];
-    char ingredientes_pizza[200];
-    char nombre_pizza[100];
-} orden;
+    char pizza_id[20];
+    char order_id[20];
+    char pizza_name_id[50];
+    int quantity;
+    char order_date[20];
+    char order_time[20];
+    float unit_price;
+    float total_price;
+    char pizza_size[5];
+    char pizza_category[20];
+    char pizza_ingredients[200];
+    char pizza_name[50];
+} PizzaOrder;
 
 #endif

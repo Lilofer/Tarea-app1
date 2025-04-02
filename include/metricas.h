@@ -1,19 +1,28 @@
 #ifndef METRICS_H
-  #define METRICS_H
+#define METRICS_H
 
-  #include "orden.h"
+#include "orden.h"
 
-  char* pms(int size, orden* orders);
-  char* pls(int size, orden* orders);
-  char* dms(int size, orden* orders);
-  char* dls(int size, orden* orders);
-  char* dmsp(int size, orden* orders);
-  char* dlsp(int size, orden* orders);
-  float apo(int size, orden* orders);
-  float apd(int size, orden* orders);
-  char* ims(int size, orden* orders);
-  char* hp(int size, orden* orders);
+typedef struct {
+    char pizza_name[50];
+    int quantity;
+    struct PizzaFrequency *next;
+} PizzaFrequency;
 
-  typedef char* (*metrica_func)(int size, orden* orders);
+typedef struct {
+    char date[20];
+    float sales;
+    int quantity;
+    struct DateSales *next;
+} DateSales;
 
-  #endif
+void pms(PizzaOrder *orders, int order_count);
+void pls(PizzaOrder *orders, int order_count);
+void dms(PizzaOrder *orders, int order_count);
+void dls(PizzaOrder *orders, int order_count);
+void dmsp(PizzaOrder *orders, int order_count);
+void dlsp(PizzaOrder *orders, int order_count);
+void apo(PizzaOrder *orders, int order_count);
+void apd(PizzaOrder *orders, int order_count);
+
+#endif
