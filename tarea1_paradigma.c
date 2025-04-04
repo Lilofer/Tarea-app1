@@ -5,6 +5,7 @@
 
 #define MAX_LINE 1024
 #define MAX_ORDERS 1000
+#define MAX_FIELD_LENGTH 200 // Ajustado para pizza_ingredients
 
 typedef struct {
     char pizza_id[20];
@@ -17,7 +18,7 @@ typedef struct {
     float total_price;
     char pizza_size[5];
     char pizza_category[20];
-    char pizza_ingredients[200];
+    char pizza_ingredients[MAX_FIELD_LENGTH];
     char pizza_name[50];
 } PizzaOrder;
 
@@ -34,22 +35,72 @@ void load_csv(const char *filename) {
     char line[MAX_LINE];
     fgets(line, MAX_LINE, file); // Saltar encabezado
 
-    while (fgets(line, MAX_LINE, file) && order_count < MAX_ORDERS) { //Esto es para sabes si esta leyendo las lineas
+    while (fgets(line, MAX_LINE, file) && order_count < MAX_ORDERS) {
         printf("Línea leída: %s", line); // Imprime la línea leída
 
-        int result = sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%[^,],%f,%f,%[^,],%[^,],\"%[^\"]\",%[^,]",
-                            orders[order_count].pizza_id, orders[order_count].order_id, orders[order_count].pizza_name_id,
-                            &orders[order_count].quantity, orders[order_count].order_date, orders[order_count].order_time,
-                            &orders[order_count].unit_price, &orders[order_count].total_price,
-                            orders[order_count].pizza_size, orders[order_count].pizza_category,
-                            orders[order_count].pizza_ingredients, orders[order_count].pizza_name);
+        char *token;
+        char *saveptr;
 
-        if (result != 12) {
-            printf("Error al leer la línea %d del CSV.\nColumnas leidas: %d \nProblema: %s \n\n", order_count + 1, result, orders[order_count].order_date);
-        }
+        token = strtok_r(line, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_id, token, sizeof(orders[order_count].pizza_id) - 1);
+        orders[order_count].pizza_id[sizeof(orders[order_count].pizza_id) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].order_id, token, sizeof(orders[order_count].order_id) - 1);
+        orders[order_count].order_id[sizeof(orders[order_count].order_id) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_name_id, token, sizeof(orders[order_count].pizza_name_id) - 1);
+        orders[order_count].pizza_name_id[sizeof(orders[order_count].pizza_name_id) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        orders[order_count].quantity = atoi(token);
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].order_date, token, sizeof(orders[order_count].order_date) - 1);
+        orders[order_count].order_date[sizeof(orders[order_count].order_date) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].order_time, token, sizeof(orders[order_count].order_time) - 1);
+        orders[order_count].order_time[sizeof(orders[order_count].order_time) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        orders[order_count].unit_price = atof(token);
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        orders[order_count].total_price = atof(token);
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_size, token, sizeof(orders[order_count].pizza_size) - 1);
+        orders[order_count].pizza_size[sizeof(orders[order_count].pizza_size) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_category, token, sizeof(orders[order_count].pizza_category) - 1);
+        orders[order_count].pizza_category[sizeof(orders[order_count].pizza_category) - 1] = '\0';
+
+        // Manejar la cadena entre comillas dobles
+        token = strtok_r(NULL, "\"", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_ingredients, token, sizeof(orders[order_count].pizza_ingredients) - 1);
+        orders[order_count].pizza_ingredients[sizeof(orders[order_count].pizza_ingredients) - 1] = '\0';
+
+        token = strtok_r(NULL, ",", &saveptr);
+        if (token == NULL) continue;
+        strncpy(orders[order_count].pizza_name, token, sizeof(orders[order_count].pizza_name) - 1);
+        orders[order_count].pizza_name[sizeof(orders[order_count].pizza_name) - 1] = '\0';
 
         order_count++;
-    } // Cierra el bucle while principal
+    }
 
     fclose(file);
     printf("Se cerro el bucle \n");
